@@ -1,20 +1,26 @@
 console.log('starting notes.js');
 
-var addNote = (title,  body)=>{
+var fetchNotes = () =>{
+  try {
+    var noteString = fs.readFileSync("notes-data.json");
+    return JSON.parse(noteString);
+  } catch (e) {
+    return [];
+    console.log("File not exist!");
+  }
+};
 
+var saveNotes = (notes) => {
+     fs.writeFileSync("notes-data.json", JSON.stringify(notes));
+}
+
+var addNote = (title,  body)=>{
   const fs = require('fs');
 
-  var notes = [];
+  var notes = fetchNotes();
   var note = {
     title,
     body
-  }
-
-  try {
-    var noteString = fs.readFileSync("notes-data.json");
-    notes = JSON.parse(noteString);
-  } catch (e) {
-    console.log("File not exist!");
   }
   //set title to be uniqe----------------
   //ES6--------------
@@ -23,10 +29,9 @@ var addNote = (title,  body)=>{
     // var duplicateNotes = notes.filter((note) => {
     //   return note.title === title;
     // });
-
   if(duplicateNotes.length === 0){
      notes.push(note);
-     fs.writeFileSync("notes-data.json", JSON.stringify(notes));
+     saveNotes(notes);
   }else {
       console.log("This title is exist. try another one.");
   }
