@@ -1,4 +1,5 @@
 console.log('starting notes.js');
+const fs = require('fs');
 
 var fetchNotes = () =>{
   try {
@@ -15,7 +16,6 @@ var saveNotes = (notes) => {
 }
 
 var addNote = (title,  body)=>{
-  const fs = require('fs');
 
   var notes = fetchNotes();
   var note = {
